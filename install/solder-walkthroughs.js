@@ -256,7 +256,8 @@ function walkthroughProbeMap(joint) {
   const targets = hasTwo ? "Gold shows " + padLabel(joint.joint) + " and cyan shows " + padLabel(joint.breakout) + "." :
     isInterface ? "Gold shows " + padLabel(joint.joint) + "." :
     "Gold frames the solder joint. Violet marks the ends of the series resistor. Cyan marks the breakout pad.";
-  const side = isInterface ? '<span data-probe-side></span>' : 'KiCad front';
+  const front = joint.route.board === "sideA" ? "Front · installed orientation" : "KiCad front";
+  const side = isInterface ? '<span data-probe-side></span>' : front;
   return '<div class="board-controls' + (hasTwo ? '' : ' rb-probe-controls') + '">' + focusButtons +
     boardZoomButton() + '</div><figure class="locator rb-probe-map"><div class="map-top"><span>' + title +
     ' · ' + side + '</span><strong>' + signal +

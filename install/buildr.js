@@ -204,7 +204,7 @@ function drawLocator() {
   const board = buildrData.boards[mode === "interface" ? "interfaceB" : route.board];
   const jointColor = "#ffcb64";
   const motherPoint = [activeSignal.x, activeSignal.y];
-  const flipped = mode === "solder" && !canvas.dataset.fixedView && route.board === "sideA";
+  const flipped = mode === "solder" && route.board === "sideA";
   const placement = installed ? board.placement : [flipped ? -1 : 1, 0, 0, 0];
   const fixedInterface = canvas.dataset.fixedView === "interface-solder";
   const focusIndex = fixedInterface ? (canvas.dataset.probeFocus === "breakout" ? route.probe : route.joint) : undefined;
