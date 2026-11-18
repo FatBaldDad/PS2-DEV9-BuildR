@@ -7,10 +7,10 @@ function renderCheckR() {
         <h2 tabindex="-1">CheckR downloads and instructions</h2>
         <p class="intro">Use CheckR v0.5.0 to find the first failing stage of the DEV9 and IDE path on an SCPH-700xx PS2.</p>
         <div class="actions">
-          <a class="button primary" href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_CheckR.ELF">Download CheckR ELF</a>
-          <a class="button" href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_TEST.img">Download microSD image</a>
+          <a class="button primary" href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_CheckR.ELF?verify=81cd1a6">Download CheckR ELF</a>
+          <a class="button" href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_TEST.img?verify=81cd1a6">Download microSD image</a>
           <a href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/SHA256SUMS.txt" target="_blank" rel="noopener">SHA-256 checksums</a>
-          <a href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_TEST.json" target="_blank" rel="noopener">Image manifest</a>
+          <a href="https://github.com/FatBaldDad/PS2-DEV9-BuildR/releases/download/checkr-v0.5.0/FBD_DEV9_TEST.json?verify=81cd1a6" target="_blank" rel="noopener">Image manifest</a>
         </div>
       </section>
 
