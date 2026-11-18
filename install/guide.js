@@ -72,8 +72,9 @@ function renderInstall(id) {
     '<aside class="stack"><section class="panel" aria-labelledby="steps-title"><div id="step-summary">' + stepSummary() +
     '</div><ol class="steps">' + steps + '</ol></section>' +
     '<section class="panel quick"><h3>Adapter already installed?</h3>' +
-    '<p class="caption">Start from what CheckR shows on the connected run.</p>' +
-    '<div class="actions"><a class="button" href="#diagnose">Troubleshoot adapter detection <span aria-hidden="true">→</span></a></div></section>' + pathDiagram() + '</aside></div>';
+    '<p class="caption">Run CheckR on the connected adapter and start with its first failed test.</p>' +
+    '<div class="actions"><a class="button" href="#checkr">Download and run CheckR</a>' +
+    '<a href="#diagnose">Troubleshoot adapter detection</a></div></section>' + pathDiagram() + '</aside></div>';
 }
 
 function diagnosisResult(id) {
@@ -125,10 +126,12 @@ function renderReports() {
     '<label for="session-file" class="field">CheckR session file</label><input id="session-file" type="file" accept=".json,application/json">' +
     '<div id="report-result" class="result" aria-live="polite"><p class="caption">Choose a file to view its evidence.</p></div></section>' +
     '<aside class="panel"><h3>What to keep</h3><ul class="bullets">' +
+    '<li><code>CHECKR.LOG</code> next to the ELF for the automatic USB check.</li>' +
     '<li><code>REPORT.TXT</code> for the DEV9, Reset and Identify details.</li><li><code>TRACE.CSV</code> for individual transactions.</li>' +
     '<li><code>SESSION.JSON</code> for pattern evidence and A/B data.</li><li><code>BASELINE.FBD</code> to reload a saved baseline on the PS2.</li></ul>' +
     '<p class="caption">Keep both numbered folders, a photo of the first failure and the console, motherboard and BuildR revisions.</p>' +
-    '<div class="actions"><a href="#install/report">Return to the baseline workflow</a></div></aside></div>';
+    '<div class="actions"><a href="#checkr">CheckR launch and log instructions</a>' +
+    '<a href="#install/report">Return to the baseline workflow</a></div></aside></div>';
 }
 
 function readSession(source) {
@@ -197,7 +200,7 @@ async function importReport(input) {
   }
 }
 
-const routes = {install: renderInstall, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
+const routes = {install: renderInstall, checkr: renderCheckR, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
 
 function render(focusHeading) {
   let [route, id] = location.hash.slice(1).split("/");

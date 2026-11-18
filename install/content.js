@@ -5,16 +5,12 @@ const installSteps = [
     id: "prepare", title: "Prepare your bench", intro: "Record the hardware revision and prepare two separate pieces of media for CheckR.",
     checks: [
       "Record the full SCPH-700xx model, the GH-035-11 board marking, and the BuildR revision. Gather the wiring map for that exact BuildR revision.",
-      "Copy <code>FBD_DEV9_Diagnostic.elf</code> to the root of a FAT32 USB stick. Leave room for the reports.",
-      "Use the CheckR v1 image <code>FBD_DEV9_TEST.img</code> with a dedicated spare microSD. In balenaEtcher, select the whole card by reader and capacity, then flash the image and let validation finish.",
-      "Eject the microSD after flashing. If Windows offers to initialize or format it, cancel. A raw CheckR card uses fixed sectors."
+      "Copy <code>FBD_DEV9_CheckR.ELF</code> to a FAT32 USB stick. Leave room for the reports.",
+      "Flash and verify the v1 image <code>FBD_DEV9_TEST.img</code> on a spare microSD for the guided data-line checks."
     ],
-    note: "Flashing erases the selected card. Back up its files first. The microSD goes into the FC1307A. The USB stick goes into the PS2.",
+    note: "Flashing overwrites the selected card. Back up its files first. The microSD goes into the FC1307A. The USB stick goes into the PS2.",
     warning: true,
-    extra: `<details><summary>Windows media and launcher references</summary>
-      <p class="caption">In a local CheckR checkout, use the release files from <code>dist/</code>. Verify the source image and manifest before flashing:</p>
-      <pre><code>python tools/verify_test_image.py dist/FBD_DEV9_TEST.img --manifest dist/FBD_DEV9_TEST.json</code></pre>
-      <p class="caption"><a href="https://etcher.balena.io/">balenaEtcher</a> · <a href="https://github.com/ps2homebrew/wLaunchELF">wLaunchELF</a></p></details>`
+    link: ["#checkr", "Get CheckR and prepare the microSD"]
   },
   {
     id: "dry-fit", title: "Identify and dry-fit the boards",
@@ -105,8 +101,8 @@ const installSteps = [
     id: "baseline", title: "Capture the DEV9 baseline", intro: "Run CheckR with the BuildR installed and the FC1307A disconnected.",
     checks: [
       "Power off and unplug before disconnecting the FC1307A. Leave the BuildR in place.",
-      "Insert the FAT32 USB stick and connect your controller to port 1. Start from a clean boot. In wLaunchELF, open FileBrowser → <code>mass:/</code> → <code>FBD_DEV9_Diagnostic.elf</code>.",
-      "Confirm the SCPH-700xx model on CheckR’s 70K Installer Checklist. Select <strong>FC1307A disconnected</strong> and press Cross (×).",
+      "Insert the FAT32 USB stick and connect your controller to port 1. Start from a clean boot. In wLaunchELF, open FileBrowser → <code>mass:/</code> and launch <code>FBD_DEV9_CheckR.ELF</code>.",
+      "After the automatic check, press Circle (○) to open the 70K Installer Checklist. Select <strong>FC1307A disconnected</strong> and press Cross (×).",
       "Press Square (□) on DEV9 to see the controller readings. Return with Circle (○), press Right for Report, and press Cross to save. Record the numbered folder."
     ],
     note: "ATA access can be blocked with the FC1307A disconnected. Save the DEV9/SPEED readings for comparison with the next boot.",
@@ -116,7 +112,7 @@ const installSteps = [
     id: "detect", title: "Detect the adapter", intro: "Run the same DEV9 check with the FC1307A attached, then confirm that ATA device 0 responds.",
     checks: [
       "Power off and unplug. Put the verified v1 test microSD into the FC1307A, seat the adapter, then relaunch CheckR.",
-      "Choose <strong>FC1307A connected</strong> and press Cross. Expect <strong>DEV9 and ATA accessible</strong>.",
+      "After the automatic check, press Circle to open the installer. Choose <strong>FC1307A connected</strong> and press Cross. Expect <strong>DEV9 and ATA accessible</strong>.",
       "Press Right to <strong>Reset</strong>, then Cross. Expect <strong>Device ready</strong>.",
       "Press Right to <strong>Identify</strong>, then Cross. Expect <strong>Device 0 identified</strong>. Square shows the model, firmware and capacity."
     ],
@@ -149,7 +145,7 @@ const installSteps = [
 const symptoms = {
   launch: {
     label: "CheckR won’t launch or the installer is missing", title: "Verify the diagnostic setup",
-    checks: ["Use a clean boot, a working homebrew launcher and the standalone ELF on readable FAT32 USB media. For wLaunchELF, open FileBrowser → mass:/ and select FBD_DEV9_Diagnostic.elf.", "Plug the controller into port 1 and set the display or scaler to 4:3 with zoom off. CheckR opens the installer after confirming an SCPH-700xx model.", "Photograph the full screen or launcher error. Record the exact console model and which launcher loaded the ELF."],
+    checks: ["Use a clean boot, a working homebrew launcher and the standalone ELF on readable FAT32 USB media. For wLaunchELF, open FileBrowser → mass:/ and select <code>FBD_DEV9_CheckR.ELF</code>.", "Plug the controller into port 1 and set the display or scaler to 4:3 with zoom off. After the automatic USB check, press Circle to open the installer.", "Photograph the full screen or launcher error. Record the exact console model and which launcher loaded the ELF."],
     step: "baseline"
   },
   speed: {

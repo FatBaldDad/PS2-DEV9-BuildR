@@ -37,7 +37,7 @@ h1 { font-size: clamp(2rem, 4.8vw, 3.65rem); font-weight: 740; line-height: 1.04
 .hardware dt, .eyebrow { font: 700 .7rem/1.5 var(--mono); letter-spacing: .085em; text-transform: uppercase; }
 .hardware dt { color: #b3c7de; white-space: nowrap; }
 .hardware dd { font: 600 .96rem/1.6 var(--mono); color: #f0f8ff; margin: 0; }
-.navigation { display: flex; flex-wrap: wrap; column-gap: 28px; }
+.navigation { display: flex; flex-wrap: wrap; column-gap: 24px; }
 .navigation a { color: #c3d0e3; font-size: .9rem; text-decoration: none; padding: 13px 1px 14px; border-bottom: 3px solid transparent; }
 .navigation a:hover, .navigation a[aria-current] { color: #fff; border-color: var(--accent); }
 
