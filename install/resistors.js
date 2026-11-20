@@ -178,7 +178,7 @@ function drawResistorMaps() {
         });
       });
       ctx.fillStyle='#bcd0e1';ctx.font='20px system-ui';ctx.textAlign='center';
-      ctx.fillText(part.board==='sideA'?'Wire breakout pads ↑':'Signal end ↑',canvas.width/2,28);
+      ctx.fillText(part.board==='sideA'?'Front/component side':'Signal end ↑',canvas.width/2,28);
       if(part.board==='interfaceB')ctx.fillText('LED pads ↓',canvas.width/2,canvas.height-25);
     } else {
       // Mark nearby physical copper landmarks using the exact exported pad positions.
