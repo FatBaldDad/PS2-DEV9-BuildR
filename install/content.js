@@ -32,6 +32,7 @@ const installSteps = [
       "Identify the exposed output pads for the wires that run to the Interface PCB.",
     ],
     note: "Follow the highlighted pad in each schematic step. The series channel and the output pad each have their own probe locations.",
+    extra: '<div class="actions"><a class="button primary" href="#resistors/sideA-rb9003">Find the four 33 Ω resistor arrays</a></div>',
     board: "sideA",
   },
   {
@@ -54,6 +55,7 @@ const installSteps = [
       "Find the two endpoints for each signal: the input from the solder PCB and the output toward the adapter.",
     ],
     note: "KiCad marks U1 and IC1 DNP. Use the populated hardware and the verified power wiring for your build.",
+    extra: '<div class="actions"><a class="button primary" href="#resistors/interfaceB-r1">Find the Interface resistors and values</a></div>',
     board: "interfaceB",
   },
   {

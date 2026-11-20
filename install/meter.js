@@ -87,7 +87,7 @@ function renderMeter(id) {
     '<aside class="stack"><section class="panel"><h3>Connector orientation</h3>' +
     gusseIllustration("gusse-ide-connector.png", 566, 225, "IDE Resurrector v0.4 connector drawing, with pin 1 marked at the right",
       "Gusse’s IDE Resurrector v0.4 drawing. Match the connector orientation before counting pins.") + '</section>' +
-    '<section class="panel"><h3>Motherboard resistor values</h3><p class="intro">Gusse marked 1 kΩ, 10 kΩ, and 4.7 kΩ on the motherboard photo.</p>' +
+    '<section class="panel"><h3>Motherboard resistor values</h3><p class="caption"><a href="#resistors">Find BuildR resistor placement and values</a></p><p class="intro">Gusse marked 1 kΩ, 10 kΩ, and 4.7 kΩ on the motherboard photo.</p>' +
     gusseIllustration("gusse-resistor-locations.png", 768, 564, "Gusse’s motherboard photo with 1 kΩ, 10 kΩ and 4.7 kΩ resistor locations",
       'Gusse’s reference photo. The <a href="#solder">BuildR solder tests</a> show the fitted BuildR component values and where to probe their terminals.') + '</section>' +
     '<section class="panel"><h3>Gusse’s 5 V locations</h3><p class="intro">The photo shows the main and USB 5 V locations from Gusse’s guide. This BuildR installation uses a different motherboard pickup.</p>' +

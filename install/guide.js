@@ -200,7 +200,7 @@ async function importReport(input) {
   }
 }
 
-const routes = {install: renderInstall, checkr: renderCheckR, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
+const routes = {resistors: renderResistors, install: renderInstall, checkr: renderCheckR, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
 
 function render(focusHeading) {
   let [route, id] = location.hash.slice(1).split("/");
@@ -211,6 +211,7 @@ function render(focusHeading) {
   }
   page.innerHTML = routes[route](id);
   if (page.querySelector(".pcb-view")) drawLocator();
+  if (route === "resistors") drawResistorMaps();
   drawAdapterDiagrams();
   activateBridge();
   activatePowerCheck();

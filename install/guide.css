@@ -234,3 +234,23 @@ input[type="file"]::file-selector-button { background: #e7effa; border: 1px soli
 .power-reading { margin: 14px 0 0; }
 #power-voltage { width: 100%; min-height: 42px; color: #16253b; border: 1px solid #a9bdd4; border-radius: 7px; background: #f9fbfe; padding: 8px 10px; }
 .pickup-active .wire-pickup-diagram span { border-color: #8d2717; box-shadow: 0 0 0 3px #ffd279; }
+
+
+/* Resistor placement maps use the exported PCB geometry and component pads. */
+.resistor-selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.resistor-layout { display: grid; grid-template-columns: minmax(260px, .85fr) minmax(0, 1.35fr); gap: 22px; align-items: start; }
+.resistor-map { display: block; width: 100%; height: auto; background: #132638; border: 1px solid #33536f; border-radius: 0 0 8px 8px; }
+.resistor-detail { margin-top: 20px; }
+.resistor-detail .facts { grid-template-columns: 100px minmax(0,1fr); }
+.resistor-notes { margin-top: 20px; }
+.resistor-notes .meter-figure { max-width: 768px; }
+.resistor-notes .meter-figure img { width: 100%; max-height: none; }
+.resistor-table { width: 100%; margin-top: 24px; }
+.resistor-table caption { text-align: left; font-weight: 700; padding-bottom: 10px; }
+.resistor-table td, .resistor-table th { white-space: normal; }
+.resistor-selected { background: #fff2d6; }
+@media (max-width: 760px) {
+  .resistor-layout, .resistor-selectors { grid-template-columns: minmax(0,1fr); gap: 12px; }
+  .resistor-layout > div:first-child { max-width: 440px; width: 100%; margin-inline: auto; }
+  .resistor-detail .facts { grid-template-columns: 80px minmax(0,1fr); }
+}
