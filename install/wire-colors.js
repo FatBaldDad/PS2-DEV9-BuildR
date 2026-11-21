@@ -1,7 +1,7 @@
 "use strict";
 
 // Bench color choices only; all electrical endpoints come from the existing wire map.
-const wireColorKey = "fbd-dev9-buildr-wire-colors-v1";
+const wireColorKey = "fbd-dev9-buildr-checklist-wire-colors-v1";
 const wirePalette = {
   unset: {name: "Not assigned", hex: "#ffffff"},
   black: {name: "Black", hex: "#20252c"},
@@ -12,28 +12,54 @@ const wirePalette = {
   yellow: {name: "Yellow", hex: "#f2d74b"},
   green: {name: "Green", hex: "#39a15d"},
   blue: {name: "Blue", hex: "#347ccc"},
-  violet: {name: "Violet", hex: "#945dcc"},
+  purple: {name: "Purple", hex: "#945dcc"},
   gray: {name: "Gray", hex: "#929aa5"},
   white: {name: "White", hex: "#ffffff"},
   cyan: {name: "Cyan", hex: "#34c5cf"},
 };
-const dataWireColors = ["brown", "orange", "yellow", "green", "blue", "violet", "gray", "white"];
-const controlWireColors = {
-  dior: "cyan", diow: "blue", iordy: "green", cs0: "brown", cs1: "orange",
-  da0: "yellow", da1: "green", da2: "blue", reset: "violet",
-  intrq: "white", dmarq: "gray", dmack: "cyan",
+// Pin Checklist!A7:I50, Wire color column. N/A and absent rows stay unassigned.
+const wireColorSource = "https://docs.google.com/spreadsheets/d/1KdZB02xICUhMrN8yKhpt6ARcejf_AVAqhD7HWVxzkDs/edit#gid=1088510634&range=A6:I50";
+const wireReferenceColors = {
+  "1": "purple",
+  "3": "white",
+  "4": "gray",
+  "5": "white",
+  "6": "gray",
+  "7": "white",
+  "8": "gray",
+  "9": "white",
+  "10": "gray",
+  "11": "white",
+  "12": "gray",
+  "13": "white",
+  "14": "gray",
+  "15": "white",
+  "16": "gray",
+  "17": "white",
+  "18": "gray",
+  "21": "green",
+  "23": "blue",
+  "25": "blue",
+  "27": "brown",
+  "29": "green",
+  "31": "brown",
+  "33": "yellow",
+  "35": "yellow",
+  "36": "yellow",
+  "37": "orange",
+  "38": "orange"
 };
 const wireColorEntries = [
-  {id: "ground", mapId: "ground", signal: "GND", group: "Ground and power", suggested: "black",
+  {id: "ground", mapId: "ground", signal: "GND", group: "Ground and power", defaultColor: "unset",
     source: "Verified GH-035-11 ground; Side A / SubPCB ground contacts where fitted",
     via: wireInterfaceEnd(interfacePadIndex("GND1")),
     end: wireAdapterEnd(43) + " · confirm adapter return", note: "Ground leads"},
-  {id: "power-5v", mapId: "power", signal: "+5 V", group: "Ground and power", suggested: "red",
+  {id: "power-5v", mapId: "power", signal: "+5 V", group: "Ground and power", defaultColor: "unset",
     source: '<a href="#wire/power">GH-035-11 JL4016</a>',
     via: wireInterfaceEnd(interfacePadIndex("+5V1")),
     end: wireAdapterEnd(41) + " / " + wireAdapterEnd(42) + " · confirm fitted feed",
     note: "5 V supply leads; verify the actual harness contacts"},
-  {id: "power-3v3", mapId: "power", signal: "+3.3 V", group: "Ground and power", suggested: "pink",
+  {id: "power-3v3", mapId: "power", signal: "+3.3 V", group: "Ground and power", defaultColor: "unset",
     source: "Local Interface regulator output · if fitted",
     via: wireInterfaceEnd(interfacePadIndex("+3V3")),
     end: "No adapter destination assigned", note: "Separate rail; only use if required by your build"},
@@ -43,8 +69,7 @@ const wireColorEntries = [
     return {
       id: item.id, mapId: item.id, signal: item.pad.signal,
       group: item.pad.side === "A" ? "Side A PCB" : "B-side SubPCB",
-      suggested: /^DD\d+$/.test(item.pad.signal) ?
-        dataWireColors[Number(item.pad.signal.slice(2)) % dataWireColors.length] : controlWireColors[item.id],
+      defaultColor: wireReferenceColors[gussePin(item.pad)] || "unset",
       source: buildrData.boards[route.board].label + " · " +
         wireLink(walkthroughUrl(solder), padLabel(solder.breakout)),
       via: "In: " + wireInterfaceEnd(input) + "<br>Out: " + wireInterfaceEnd(output),
@@ -54,15 +79,15 @@ const wireColorEntries = [
   }),
   ...wirePasses.map(joint => ({
     id: joint.id, mapId: joint.id, signal: joint.pad.signal, group: "Pass-through and activity",
-    suggested: "unset",
+    defaultColor: "unset",
     source: wireLink(walkthroughUrl(joint), joint.joint.ref + " to " + joint.breakout.ref),
     via: "Local SubPCB copper pair", end: "Downstream destination unconfirmed",
     note: "Assign a color only for an external lead you actually fit",
   })),
-  {id: "dasp", mapId: "dasp", signal: "DASP#", group: "Pass-through and activity", suggested: "orange",
+  {id: "dasp", mapId: "dasp", signal: "DASP#", group: "Pass-through and activity", defaultColor: "unset",
     source: "Optional adapter activity lead",
     via: wireInterfaceEnd(interfacePadIndex("IDE_DASP1")), end: wireAdapterEnd(39),
-    note: "Activity circuit · if fitted"},
+    note: "Checklist leaves pin 39 unwired; only fit if your BuildR uses the activity circuit"},
 ];
 let wireColorChoices = {};
 let wireColorStorage = true;
@@ -80,7 +105,7 @@ try {
 }
 
 function wireColorValue(entry) {
-  return wireColorChoices[entry.id] || entry.suggested;
+  return wireColorChoices[entry.id] || entry.defaultColor;
 }
 
 function wireColorSwatch(entry) {
@@ -93,7 +118,8 @@ function wireColorSwatch(entry) {
 
 function wireColorBadge(entry) {
   return wireColorSwatch(entry) + '<span class="wire-color-origin">' +
-    (Object.hasOwn(wireColorChoices, entry.id) ? "Your choice" : "Suggested") + '</span>';
+    (Object.hasOwn(wireColorChoices, entry.id) ? "Your choice" :
+      entry.defaultColor === "unset" ? "Not specified in checklist" : "From checklist") + '</span>';
 }
 
 function wireColorDetail(id) {
@@ -135,15 +161,17 @@ function renderWireColors() {
   }).join("");
   return '<section class="panel wire-colors-panel"><p class="eyebrow">Bench reference · GH-035-11</p>' +
     '<h2 tabindex="-1">Wire color reference</h2>' +
-    '<p class="intro">Choose the colors you will use, then follow each signal from its solder PCB breakout through the Interface PCB to the adapter.</p>' +
-    '<p class="callout">These are suggested wire colors for this build, not a factory or ATA color standard. ' +
+    '<p class="intro">Colors follow the Wire color column in your PS2 V12 IDE Soldering Checklist. Follow each signal from its solder PCB breakout through the Interface PCB to the adapter, or change a color to match your wire.</p>' +
+    '<p class="callout">These are your checklist colors, not a factory or ATA color standard. ' +
     'Colors repeat: label both ends with the signal name. Use the same color for Wire 1 (solder PCB to Interface input) ' +
     'and Wire 2 (Interface output to adapter). Match the pad names and pin numbers before soldering.</p>' +
+    '<p class="caption">Source: <a href="' + wireColorSource + '">PS2 V12 IDE Soldering Checklist · Pin Checklist · Wire color column</a>. ' +
+    'N/A colors and connections absent from the sheet remain unassigned. The source supplies the colors; the BuildR wire map supplies the board endpoints.</p>' +
     '<p class="caption">Side A PCB v0.0 · B-side SubPCB v0.1 · B-side Interface PCB v0.1 · 44-pin FC1307A. ' +
     '5 V and 3.3 V are separate rails. Supply pins 41/42 are reference positions; confirm the fitted harness feed. ' +
     'Pass-through rows show local copper only until external wiring is confirmed.</p>' +
     '<div class="actions no-print"><button type="button" class="button primary" data-print-wire-colors>Print reference</button>' +
-    '<button type="button" class="button" data-reset-wire-colors>Use suggested colors</button>' +
+    '<button type="button" class="button" data-reset-wire-colors>Use spreadsheet colors</button>' +
     '<a href="#wire">Open wire map and meter checks</a></div>' +
     '<p class="caption no-print" id="wire-color-status" role="status">' + wireColorStatus() + '</p>' +
     '<div class="wire-color-filter no-print"><label class="field" for="wire-color-search">Find a signal, pad or adapter pin</label>' +
@@ -196,7 +224,7 @@ document.addEventListener("change", event => {
   const id = event.target.dataset.wireColor;
   const entry = wireColorEntries.find(candidate => candidate.id === id);
   if (!entry || !Object.hasOwn(wirePalette, event.target.value)) return;
-  if (event.target.value === entry.suggested) delete wireColorChoices[id];
+  if (event.target.value === entry.defaultColor) delete wireColorChoices[id];
   else wireColorChoices[id] = event.target.value;
   saveWireColors();
   event.target.closest("tr").querySelector("[data-wire-color-badge]").innerHTML = wireColorBadge(entry);
