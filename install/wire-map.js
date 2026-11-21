@@ -193,6 +193,7 @@ function renderWire(id) {
     (previous ? '<a class="button" href="' + wireJump(previous) + '">← Previous</a>' : '') +
     (next ? '<a class="button primary" href="' + wireJump(next) + '">Next →</a>' :
       '<a class="button primary" href="#install/preflight">Pre-power checks →</a>') + '</div>' +
+    wireColorDetail(item.id) +
     '<div class="result"><h3>' + item.label + ' · Meter checks</h3><ul class="test-rows">' + selection.rows.join("") + '</ul>' +
     '<p class="caption">Record each result as you go. Results are saved in this browser when storage is available.</p></div>' +
     '<div class="actions"><a href="#install/wire">Install sequence</a><a href="#install/preflight">Pre-power checks</a></div>' +

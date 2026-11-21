@@ -200,7 +200,7 @@ async function importReport(input) {
   }
 }
 
-const routes = {resistors: renderResistors, install: renderInstall, checkr: renderCheckR, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
+const routes = {resistors: renderResistors, install: renderInstall, checkr: renderCheckR, diagnose: renderDiagnosis, pads: renderPads, solder: renderSolder, bridge: renderBridge, wire: renderWire, "wire-colors": renderWireColors, power: renderPowerCheck, "interface-pads": renderInterfacePads, meter: renderMeter, adapter: renderAdapter, reports: renderReports};
 
 function render(focusHeading) {
   let [route, id] = location.hash.slice(1).split("/");

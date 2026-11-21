@@ -1,0 +1,49 @@
+
+/* Wire insulation colors are independent of the locator highlight colors. */
+.wire-color-detail { margin-top: 18px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: #f6f9fd; }
+.wire-color-detail > p { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.wire-color-detail > p.caption { display: block; }
+.wire-color-chip { display: inline-flex; align-items: center; gap: 9px; vertical-align: middle; }
+.wire-color-swatch { display: inline-block; flex: 0 0 36px; width: 36px; height: 16px; border: 1px solid #546277; border-radius: 5px; background: var(--wire-color); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.wire-color-unset { background: repeating-linear-gradient(135deg, #fff 0 5px, #c9d2de 5px 7px); }
+.wire-color-origin { display: block; margin-top: 4px; color: var(--muted); font-size: .875rem; font-weight: 400; }
+.wire-colors-panel { min-width: 0; }
+.wire-color-filter { max-width: 520px; }
+.wire-color-filter input { width: 100%; min-height: 42px; padding: 8px 10px; border: 1px solid #a9bdd4; border-radius: 7px; font: inherit; }
+.wire-color-table { margin-top: 16px; overflow-x: auto; }
+.wire-color-table table { width: 100%; border-collapse: collapse; font-size: 1rem; line-height: 1.5; }
+.wire-color-table th, .wire-color-table td { padding: 12px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.wire-color-table thead { background: #eaf2fc; color: #173d70; }
+.wire-color-table tbody tr:nth-child(even) { background: #f7faff; }
+.wire-color-table th small { display: block; margin-top: 6px; color: var(--muted); font-size: .875rem; font-weight: 400; }
+.wire-color-table .wire-color-group { background: #182c47; color: #fff; }
+.wire-color-table .wire-color-group th { padding-block: 8px; font-size: .95rem; }
+.wire-color-select { margin-top: 8px; min-width: 142px; font-size: .95rem; }
+@media (max-width: 760px) {
+  .wire-color-table table, .wire-color-table tbody { display: block; }
+  .wire-color-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .wire-color-table tr { display: block; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+  .wire-color-table th, .wire-color-table td { display: block; width: 100%; padding: 10px 12px; }
+  .wire-color-table [data-label]::before { content: attr(data-label); display: block; margin-bottom: 5px; font-size: .875rem; color: var(--muted); font-weight: 400; }
+  .wire-color-table .wire-color-group { margin-bottom: 10px; }
+}
+@media print {
+  @page { size: landscape; margin: 12mm; }
+  body { background: #fff; color: #000; }
+  body:has(.wire-colors-panel) .masthead, body:has(.wire-colors-panel) .footer,
+  body:has(.wire-colors-panel) .skip, .wire-colors-panel .no-print { display: none !important; }
+  body:has(.wire-colors-panel) .shell { width: 100%; padding: 0; margin: 0; }
+  .wire-colors-panel { border: 0; box-shadow: none; padding: 0; }
+  .wire-colors-panel h2 { font-size: 20pt; }
+  .wire-colors-panel .intro, .wire-colors-panel .caption, .wire-colors-panel .callout { font-size: 10pt; }
+  .wire-color-table { overflow: visible; }
+  .wire-color-table table { display: table; font-size: 10pt; }
+  .wire-color-table thead { display: table-header-group; position: static; width: auto; height: auto; clip-path: none; }
+  .wire-color-table tbody { display: table-row-group; }
+  .wire-color-table tr { display: table-row; break-inside: avoid; }
+  .wire-color-table th, .wire-color-table td { display: table-cell; width: auto; padding: 6px; }
+  .wire-color-table [data-label]::before { display: none; }
+  .wire-color-table th small, .wire-color-origin { font-size: 9pt; }
+  .wire-color-table a { color: #000; text-decoration: none; }
+  .wire-color-table .wire-color-group { background: #eaf0f7; color: #000; print-color-adjust: exact; }
+}
