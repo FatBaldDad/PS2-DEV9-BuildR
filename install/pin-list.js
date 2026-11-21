@@ -107,18 +107,38 @@ function filterPinList() {
 function renderPinPoint(id) {
   const entry = pinListEntries.find(candidate => String(candidate.pin) === id);
   if (!entry?.joint) return renderPinList();
-  const html = solderWalkthrough(walkthroughUrl(entry.joint).slice("#solder/".length));
+  const joint = entry.joint;
+  activeSignal = {...entry.pad, walkthroughRoute: joint.route};
   locatorZoom = true;
+  const {input, output} = interfacePorts(entry.signal);
+  const board = buildrData.boards[joint.route.board].label;
+  const orientation = entry.pad.side === "A" ? "Front · installed orientation" : "KiCad front";
   return '<section class="panel pin-point-header" data-pin-point="' + entry.pin + '">' +
     '<div><p class="eyebrow">IDE pin ' + entry.pin + ' · ' + entry.destination + '</p>' +
     '<h2 tabindex="-1">' + entry.signal + ' · wire solder point</h2><p class="intro">' +
-    buildrData.boards[entry.joint.route.board].label + ' · <strong>' + padLabel(entry.joint.breakout) +
-    '</strong> · Wire 1 to the Interface PCB input</p></div>' +
+    board + ' · <strong>' + padLabel(joint.breakout) + '</strong></p></div>' +
     '<div>' + wireColorSwatch(entry.color) + '<div class="actions"><a class="button" href="#pin-list/' +
     entry.pin + '">Back to pin checklist</a><a href="#wire/' + padId(entry.signal) + '">Full wire route</a></div></div>' +
     '<div class="view-buttons" role="group" aria-label="Solder point close-up"><button class="button" type="button" data-pin-focus="breakout" ' +
     'aria-pressed="true">Wire solder pad</button><button class="button" type="button" data-pin-focus="joint" ' +
-    'aria-pressed="false">Motherboard contact</button></div></section>' + html;
+    'aria-pressed="false">Motherboard contact</button></div></section>' +
+    '<div class="layout pin-point-layout"><section class="panel"><h3 tabindex="-1" data-step-focus>Wire pad · ' +
+    padLabel(joint.breakout) + '</h3><div class="board-controls">' + boardZoomButton() + '</div>' +
+    '<figure class="locator"><div class="map-top"><span>' + board + ' · ' + orientation + '</span><strong>IDE pin ' +
+    entry.pin + ' · ' + entry.signal + '</strong></div><canvas class="pcb-view" data-fixed-view="solder" ' +
+    'width="1120" height="620" role="img" aria-label="Exposed wire solder pad for IDE pin ' + entry.pin + ' ' +
+    entry.signal + ' highlighted on ' + board + '"></canvas><figcaption class="caption">Cyan marks the exposed wire pad; ' +
+    'gold marks the motherboard contact. Full view shows the pad in the whole board layout.</figcaption></figure></section>' +
+    '<aside class="panel"><h3>Connect this wire</h3><p class="intro">With the console unplugged, connect the exposed wire pad to the named Interface input.</p>' +
+    '<dl class="facts"><dt>Wire color</dt><dd>' + wireColorSwatch(entry.color) + '</dd><dt>Wire 1 start</dt><dd>' +
+    board + ' · ' + padLabel(joint.breakout) + '</dd><dt>Wire 1 end</dt><dd>' + wireInterfaceEnd(input) +
+    '</dd><dt>Wire 2 start</dt><dd>' + wireInterfaceEnd(output) + '</dd><dt>Wire 2 end</dt><dd>' + wireAdapterEnd(entry.pin) +
+    '</dd><dt>Motherboard land</dt><dd>Side ' + entry.pad.side + ' · ' + motherboardLand(entry.pad) + '</dd></dl>' +
+    '<div class="actions"><a class="button" href="' + walkthroughUrl(joint) + '">Full solder walkthrough</a>' +
+    '<a href="#pads/' + padId(entry.signal) + '">Locate motherboard land</a></div><div class="result"><h3>Solder joint checklist</h3>' +
+    '<ul class="checks"><li><label>' + pinListCheck(entry, "soldered") + '<span>Soldered and inspected</span></label></li>' +
+    '<li><label>' + pinListCheck(entry, "verified") + '<span>Joint meter checks passed</span></label></li></ul>' +
+    '<p class="caption">These marks are shared with the pin list and the full solder walkthrough.</p></div></aside></div>';
 }
 
 function activatePinPoint() {
