@@ -170,7 +170,7 @@ function renderWireColors() {
     '<p class="caption">Side A PCB v0.0 · B-side SubPCB v0.1 · B-side Interface PCB v0.1 · 44-pin FC1307A. ' +
     '5 V and 3.3 V are separate rails. Supply pins 41/42 are reference positions; confirm the fitted harness feed. ' +
     'Pass-through rows show local copper only until external wiring is confirmed.</p>' +
-    '<div class="actions no-print"><button type="button" class="button primary" data-print-wire-colors>Print reference</button>' +
+    '<div class="actions no-print"><a class="button primary" href="#pin-list">Quick pin checklist</a><button type="button" class="button" data-print-wire-colors>Print reference</button>' +
     '<button type="button" class="button" data-reset-wire-colors>Use spreadsheet colors</button>' +
     '<a href="#wire">Open wire map and meter checks</a></div>' +
     '<p class="caption no-print" id="wire-color-status" role="status">' + wireColorStatus() + '</p>' +
